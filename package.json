@@ -2,7 +2,7 @@
   "name": "random-color-pearl",
   "version": "1.0.0",
   "description": "web component for random colored stylish pearl svg",
-  "main": "index.html",
+  "main": "src/randomColorSvg.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
