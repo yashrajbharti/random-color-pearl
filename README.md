@@ -1,6 +1,6 @@
 # Random color pearl 
 
-![planet](https://github.com/yashrajbharti/random-color-pearl/assets/43868318/46ef4432-3532-41a9-9e9a-0b6e963e3439)
+![Pearl](https://github.com/yashrajbharti/random-color-pearl/assets/43868318/46ef4432-3532-41a9-9e9a-0b6e963e3439)
 
 
 Creating stylish randomly colored pearl using the power of html web components 🪩. Simple and useful for random placeholders for profile pic or avatar.
