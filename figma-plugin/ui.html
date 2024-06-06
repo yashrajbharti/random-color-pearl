@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      background-color: #2C2C2C;
+      display: grid;
+      place-items: center;
+    }
+
+    .button {
+      display: flex;
+      align-items: center;
+      font-weight: inherit;
+      padding: 12px 24px;
+      gap: 8px;
+      height: 70px;
+      width: max-content;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      border: none;
+      background: #4168de33;
+      border-radius: 10px;
+      cursor: pointer;
+      justify-content: center;
+      margin: 0 auto;
+    }
+
+    .button:focus {
+      outline: solid 2px #818CF8;
+    }
+
+    .btnlabel {
+      margin-left: 10px;
+      font-size: 1rem;
+      color: #818CF8;
+      font-family: sans-serif;
+      letter-spacing: 1px;
+    }
+
+    .button:hover {
+      background: #4168de33;
+    }
+
+    .button:hover svg {
+      animation: spin 2s linear infinite;
+    }
+
+    .downloading {
+      animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <button id="create-svg" class="button" type="button" tabindex="0">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="30px"
+        height="30px" viewBox="0 0 30 30" version="1.1">
+        <g id="surface1">
+            <path
+                style="fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke:rgb(50.588235%,54.901961%,97.254902%);stroke-opacity:1;stroke-miterlimit:4;"
+                d="M 12.5 10 C 12.5 11.380208 11.380208 12.5 10 12.5 C 8.619792 12.5 7.5 11.380208 7.5 10 C 7.5 8.619792 8.619792 7.5 10 7.5 C 11.380208 7.5 12.5 8.619792 12.5 10 Z M 12.5 10 "
+                transform="matrix(1.5,0,0,1.5,0,0)" />
+            <path
+                style="fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke:rgb(50.588235%,54.901961%,97.254902%);stroke-opacity:1;stroke-miterlimit:4;"
+                d="M 8.390625 2.802083 C 8.929688 1.289062 11.070312 1.289062 11.609375 2.802083 C 11.947917 3.755208 13.036458 4.208333 13.950521 3.773438 C 15.403646 3.083333 16.916667 4.596354 16.226562 6.049479 C 15.791667 6.963542 16.244792 8.052083 17.197917 8.390625 C 18.710938 8.929688 18.710938 11.070312 17.197917 11.609375 C 16.244792 11.947917 15.791667 13.036458 16.226562 13.950521 C 16.916667 15.403646 15.403646 16.916667 13.950521 16.226562 C 13.036458 15.791667 11.947917 16.244792 11.609375 17.197917 C 11.070312 18.710938 8.929688 18.710938 8.390625 17.197917 C 8.052083 16.244792 6.963542 15.791667 6.049479 16.226562 C 4.596354 16.916667 3.083333 15.403646 3.773438 13.950521 C 4.208333 13.036458 3.755208 11.947917 2.802083 11.609375 C 1.289062 11.070312 1.289062 8.929688 2.802083 8.390625 C 3.755208 8.052083 4.208333 6.963542 3.773438 6.049479 C 3.083333 4.596354 4.596354 3.083333 6.049479 3.773438 C 6.963542 4.208333 8.052083 3.755208 8.390625 2.802083 Z M 8.390625 2.802083 "
+                transform="matrix(1.5,0,0,1.5,0,0)" />
+        </g>
+    </svg>
+
+    <span class="btnlabel">Generate Pearl Svg</span>
+</button>
+
+  <script>
+    document.getElementById('create-svg').onclick = () => {
+      parent.postMessage({ pluginMessage: { type: 'create-svg' } }, '*');
+    };
+  </script>
+</body>
+
+</html>
