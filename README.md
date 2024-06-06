@@ -19,3 +19,5 @@ Then simply use the web component as:
 ```html
 <random-color-svg></random-color-svg>
 ```
+
+[Check Performance and Collision Rates here](https://cybtekk-llp.github.io/Unique-SVG-Generator/)
