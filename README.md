@@ -16,6 +16,6 @@ https://unpkg.com/random-color-pearl@1.0.0/src/randomColorSvg.js
 ```
 
 Then simply use the web component as:
-```
+```html
 <random-color-svg></random-color-svg>
 ```
