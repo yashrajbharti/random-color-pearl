@@ -5,8 +5,13 @@
 
 Creating stylish randomly colored pearl using the power of html web components 🪩. Simple and useful for random placeholders for profile pic or avatar.
 
-DEMO: https://yashrajbharti.github.io/random-color-pearl/   
+DEMO: https://yashrajbharti.github.io/random-color-pearl/  
 
+## Figma Plugin for Designers
+
+LINK: https://www.figma.com/community/plugin/1380097241436668905
+
+  
 ## Install from npm
   ```
 npm i random-color-pearl
