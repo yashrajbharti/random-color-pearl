@@ -10,9 +10,9 @@ npm i random-color-pearl
 ```
 LINK: https://www.npmjs.com/package/random-color-pearl
 
-# Use Unpkg 
-```
-https://unpkg.com/random-color-pearl@1.0.0/src/randomColorSvg.js
+## Use Unpkg 
+```html
+<script src="https://unpkg.com/random-color-pearl@1.0.0/src/randomColorSvg.js"></script>
 ```
 
 Then simply use the web component as:
