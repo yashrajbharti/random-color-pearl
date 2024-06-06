@@ -1,6 +1,6 @@
 {
   "name": "random-color-pearl",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "web component for random colored stylish pearl svg",
   "main": "src/randomColorSvg.js",
   "scripts": {
