@@ -8,4 +8,14 @@ DEMO: https://yashrajbharti.github.io/random-color-pearl/
   ```
 npm i random-color-pearl
 ```
-link: https://www.npmjs.com/package/random-color-pearl
+LINK: https://www.npmjs.com/package/random-color-pearl
+
+# Use Unpkg 
+```
+https://unpkg.com/random-color-pearl@1.0.0/src/randomColorSvg.js
+```
+
+Then simply use the web component as:
+```
+<random-color-svg></random-color-svg>
+```
