@@ -30,4 +30,4 @@ Then simply use the web component as:
 
 [Check Performance and Collision Rates here](https://cybtekk-llp.github.io/Unique-SVG-Generator/)
 
-![Screenshot 2024-06-06 at 1 41 17 PM](https://github.com/yashrajbharti/random-color-pearl/assets/43868318/1653ec48-ee34-48e2-ad1e-4c0a21a3e55d)
+![Multiple Pearls generated from web components](https://github.com/yashrajbharti/random-color-pearl/assets/43868318/1653ec48-ee34-48e2-ad1e-4c0a21a3e55d)
