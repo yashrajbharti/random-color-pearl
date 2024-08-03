@@ -1,6 +1,6 @@
 {
   "name": "random-color-pearl",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "web component for random colored stylish pearl svg",
   "main": "src/randomColorSvg.js",
   "scripts": {
@@ -10,7 +10,11 @@
     "type": "git",
     "url": "git+https://github.com/yashrajbharti/random-color-pearl.git"
   },
-  "keywords": ["web-component", "svg", "custom-element"],
+  "keywords": [
+    "web-component",
+    "svg",
+    "custom-element"
+  ],
   "author": "yash",
   "license": "MIT LICENSE",
   "bugs": {
