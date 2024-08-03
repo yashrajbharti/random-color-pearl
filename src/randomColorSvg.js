@@ -1,5 +1,5 @@
-const template = document.createElement('template');
-    template.innerHTML = `
+const template = document.createElement("template");
+template.innerHTML = `
       <style>
         svg {
           display: block;
@@ -32,53 +32,145 @@ const template = document.createElement('template');
       </svg>
     `;
 
-    class RandomColorSvg extends HTMLElement {
-      constructor() {
-        super();
-        this.attachShadow({ mode: 'open' });
-        this.shadowRoot.appendChild(template.content.cloneNode(true));
-      }
+class RandomColorSvg extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
+  }
+  static get observedAttributes() {
+    return ["width", "height"];
+  }
 
-      connectedCallback() {
-        const svgElement = this.shadowRoot.querySelector('svg');
-        const allPath = svgElement.querySelectorAll('path');
-        const color1 = `#${((Math.random() * 0xffffff) << 0).toString(16).padStart(6, "0")}`;
-        const color2 = `#${((Math.random() * 0xffffff) << 0).toString(16).padStart(6, "0")}`;
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === "width" || name === "height") {
+      this.updateSize();
+    }
+  }
 
+  updateSize() {
+    const svg = this.shadowRoot.querySelector("svg");
+    svg.setAttribute("width", this.getAttribute("width") || "92");
+    svg.setAttribute("height", this.getAttribute("height") || "92");
+  }
+
+  connectedCallback() {
+    this.generateColors().then(() => {
+      const svgElement = this.shadowRoot.querySelector("svg");
+      const allPath = svgElement.querySelectorAll("path");
+      const username = this.getAttribute("username");
+
+      if (username) {
+        this.generateColors();
+      } else {
+        const color1 = `#${((Math.random() * 0xffffff) << 0)
+          .toString(16)
+          .padStart(6, "0")}`;
+        const color2 = `#${((Math.random() * 0xffffff) << 0)
+          .toString(16)
+          .padStart(6, "0")}`;
         for (const path of allPath) {
           const color = this.randomColorBetween(color1, color2);
           path.setAttribute("fill", color);
         }
       }
+    });
+  }
 
-      hexToRgb(hex) {
-        // Convert hex to RGB
-        let bigint = parseInt(hex.slice(1), 16);
-        let r = (bigint >> 16) & 255;
-        let g = (bigint >> 8) & 255;
-        let b = bigint & 255;
-        return [r, g, b];
-      }
+  async generateColors() {
+    const username = this.getAttribute("username");
+    if (username) {
+      const hexString = await this.hashTo90Hex(username);
+      const colors = this.splitTo15Colors(hexString);
 
-      rgbToHex(r, g, b) {
-        // Convert RGB to hex
-        return (
-          "#" +
-          ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase()
-        );
-      }
+      const svgElement = this.shadowRoot.querySelector("svg");
+      const allPath = svgElement.querySelectorAll("path");
 
-      randomColorBetween(hex1, hex2) {
-        let rgb1 = this.hexToRgb(hex1);
-        let rgb2 = this.hexToRgb(hex2);
-
-        // Generate a random RGB value between the two colors
-        let r = Math.floor(Math.random() * (rgb2[0] - rgb1[0] + 1)) + rgb1[0];
-        let g = Math.floor(Math.random() * (rgb2[1] - rgb1[1] + 1)) + rgb1[1];
-        let b = Math.floor(Math.random() * (rgb2[2] - rgb1[2] + 1)) + rgb1[2];
-
-        return this.rgbToHex(r, g, b);
-      }
+      allPath.forEach((path, index) => {
+        const color = colors[index % colors.length];
+        path.setAttribute("fill", color);
+      });
     }
+  }
 
-    customElements.define('random-color-svg', RandomColorSvg);
+  async hashTo90Hex(inputString) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(inputString);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+    const baseColors = this.generateBaseColors(hashHex);
+    let hexString = "";
+    const color1 = baseColors[0];
+    const color2 = baseColors[1];
+    for (let i = 0; i < baseColors.length - 1; i++) {
+      hexString += this.generateShades(color1, color2);
+    }
+    return hexString.slice(0, 90);
+  }
+
+  generateBaseColors(hashHex) {
+    const colors = [];
+    for (let i = 0; i < 2; i++) {
+      const color = `${hashHex.slice(i * 6, i * 6 + 6)}`;
+      colors.push(color);
+    }
+    return colors;
+  }
+
+  generateShades(hex1, hex2) {
+    const shades = [];
+    const baseColor1 = this.hexToRgb(hex1);
+    const baseColor2 = this.hexToRgb(hex2);
+
+    for (let i = 1; i <= 15; i++) {
+      const ratio = i / 7;
+      const r = Math.round(baseColor1[0] * (1 - ratio) + baseColor2[0] * ratio);
+      const g = Math.round(baseColor1[1] * (1 - ratio) + baseColor2[1] * ratio);
+      const b = Math.round(baseColor1[2] * (1 - ratio) + baseColor2[2] * ratio);
+      shades.push(this.rgbToHex(r, g, b).slice(1));
+    }
+    return shades.join("");
+  }
+
+  splitTo15Colors(hexString) {
+    const colors = [];
+    for (let i = 0; i < 90; i += 6) {
+      colors.push(`#${hexString.slice(i, i + 6)}`);
+    }
+    return colors;
+  }
+
+  hexToRgb(hex) {
+    // Convert hex to RGB
+    let bigint = parseInt(hex.slice(1), 16);
+    let r = (bigint >> 16) & 255;
+    let g = (bigint >> 8) & 255;
+    let b = bigint & 255;
+    return [r, g, b];
+  }
+
+  rgbToHex(r, g, b) {
+    // Convert RGB to hex
+    return (
+      "#" +
+      ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase()
+    );
+  }
+
+  randomColorBetween(hex1, hex2) {
+    let rgb1 = this.hexToRgb(hex1);
+    let rgb2 = this.hexToRgb(hex2);
+
+    // Generate a random RGB value between the two colors
+    let r = Math.floor(Math.random() * (rgb2[0] - rgb1[0] + 1)) + rgb1[0];
+    let g = Math.floor(Math.random() * (rgb2[1] - rgb1[1] + 1)) + rgb1[1];
+    let b = Math.floor(Math.random() * (rgb2[2] - rgb1[2] + 1)) + rgb1[2];
+
+    return this.rgbToHex(r, g, b);
+  }
+}
+
+customElements.define("random-color-svg", RandomColorSvg);
