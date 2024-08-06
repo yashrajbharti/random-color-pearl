@@ -93,31 +93,32 @@ class RandomColorSvg extends HTMLElement {
     }
   }
 
-  async hashTo90Hex(inputString) {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(inputString);
-    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray
-      .map((b) => b.toString(16).padStart(2, "0"))
-      .join("");
-    const baseColors = this.generateBaseColors(hashHex);
+  async hashTo90Hex(username) {
+    let hash = 0;
+    for (let i = 0; i < username.length; i++) {
+      const char = username.charCodeAt(i);
+      hash = (hash << 5) - hash + char;
+      hash |= 0;
+    }
+    const baseColors = [this.generateBaseColor(hash), this.generateBaseColor(hash + 10)];
     let hexString = "";
     const color1 = baseColors[0];
     const color2 = baseColors[1];
+    console.log(baseColors)
     for (let i = 0; i < baseColors.length - 1; i++) {
       hexString += this.generateShades(color1, color2);
     }
     return hexString.slice(0, 90);
   }
 
-  generateBaseColors(hashHex) {
-    const colors = [];
-    for (let i = 0; i < 2; i++) {
-      const color = `${hashHex.slice(i * 6, i * 6 + 6)}`;
-      colors.push(color);
+  generateBaseColor(hashHex) {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      const value = (hashHex >> (i * 4)) & 0xF;
+      color += letters[value];
     }
-    return colors;
+    return color;
   }
 
   generateShades(hex1, hex2) {
@@ -126,7 +127,7 @@ class RandomColorSvg extends HTMLElement {
     const baseColor2 = this.hexToRgb(hex2);
 
     for (let i = 1; i <= 15; i++) {
-      const ratio = i / 7;
+      const ratio = i / 15;
       const r = Math.round(baseColor1[0] * (1 - ratio) + baseColor2[0] * ratio);
       const g = Math.round(baseColor1[1] * (1 - ratio) + baseColor2[1] * ratio);
       const b = Math.round(baseColor1[2] * (1 - ratio) + baseColor2[2] * ratio);
