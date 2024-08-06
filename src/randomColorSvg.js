@@ -104,7 +104,7 @@ class RandomColorSvg extends HTMLElement {
     let hexString = "";
     const color1 = baseColors[0];
     const color2 = baseColors[1];
-    console.log(baseColors)
+
     for (let i = 0; i < baseColors.length - 1; i++) {
       hexString += this.generateShades(color1, color2);
     }
