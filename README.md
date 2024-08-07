@@ -54,7 +54,9 @@ Then simply use the web component as:
 ## Set the Color Values
 
 ```html
-<random-color-svg width="92px" height="92px" username="" colors="#000000,#1c1c1c,#333333,#4d4d4d,#666666,#808080,#999999,#b3b3b3,#cccccc,#e6e6e6,#f2f2f2,#f5f5f5,#fafafa,#dcdcdc,#c0c0c0"></random-color-svg>
+<random-color-svg width="92px" height="92px" username="" 
+colors="#000000,#1c1c1c,#333333,#4d4d4d,#666666,#808080,#999999,#b3b3b3,#cccccc,#e6e6e6,#f2f2f2,#f5f5f5,#fafafa,#dcdcdc,#c0c0c0"
+></random-color-svg>
 ```
 
 > ⚠️ Note: this will not set the color values if `username` is provided already.
