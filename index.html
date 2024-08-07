@@ -20,7 +20,15 @@
 </head>
 
 <body>
-  <random-color-svg width="92px" height="92px" username=""></random-color-svg>
+  <random-color-svg id="pearl-svg" width="92px" height="92px" username=""></random-color-svg>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const svg = document.getElementById("pearl-svg");
+      if (svg instanceof RandomColorSvg) {
+        console.log(svg.getColors().toString());
+      }
+    });
+  </script>
 </body>
 
 </html>

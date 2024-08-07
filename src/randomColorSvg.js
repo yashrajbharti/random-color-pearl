@@ -39,12 +39,18 @@ class RandomColorSvg extends HTMLElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true));
   }
   static get observedAttributes() {
-    return ["width", "height"];
+    return ["width", "height", "username", "colors"];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === "width" || name === "height") {
       this.updateSize();
+    }
+    if (name === "username" && oldValue !== newValue) {
+      this.generateColors();
+    }
+    if (name === "colors") {
+      this.generateColorsFromArray(newValue);
     }
   }
 
@@ -55,32 +61,36 @@ class RandomColorSvg extends HTMLElement {
   }
 
   connectedCallback() {
-    this.generateColors().then(() => {
-      const svgElement = this.shadowRoot.querySelector("svg");
-      const allPath = svgElement.querySelectorAll("path");
-      const username = this.getAttribute("username");
+    const svgElement = this.shadowRoot.querySelector("svg");
+    const allPath = svgElement.querySelectorAll("path");
+    const username = this.getAttribute("username");
+    const colors = this.getAttribute("colors");
 
-      if (username) {
-        this.generateColors();
-      } else {
-        const color1 = `#${((Math.random() * 0xffffff) << 0)
-          .toString(16)
-          .padStart(6, "0")}`;
-        const color2 = `#${((Math.random() * 0xffffff) << 0)
-          .toString(16)
-          .padStart(6, "0")}`;
-        for (const path of allPath) {
-          const color = this.randomColorBetween(color1, color2);
-          path.setAttribute("fill", color);
-        }
+    this.updateSize();
+    if (username) {
+      this.generateColors();
+    }
+    else if (colors) {
+      this.generateColorsFromArray(colors);
+    }
+    else {
+      const color1 = `#${((Math.random() * 0xffffff) << 0)
+        .toString(16)
+        .padStart(6, "0")}`;
+      const color2 = `#${((Math.random() * 0xffffff) << 0)
+        .toString(16)
+        .padStart(6, "0")}`;
+      for (const path of allPath) {
+        const color = this.randomColorBetween(color1, color2);
+        path.setAttribute("fill", color);
       }
-    });
+    }
   }
 
-  async generateColors() {
+  generateColors() {
     const username = this.getAttribute("username");
     if (username) {
-      const hexString = await this.hashTo90Hex(username);
+      const hexString = this.hashTo90Hex(username);
       const colors = this.splitTo15Colors(hexString);
 
       const svgElement = this.shadowRoot.querySelector("svg");
@@ -93,7 +103,17 @@ class RandomColorSvg extends HTMLElement {
     }
   }
 
-  async hashTo90Hex(username) {
+  generateColorsFromArray(colorsString) {
+    const svgElement = this.shadowRoot.querySelector("svg");
+    const allPath = svgElement.querySelectorAll("path");
+    const colors = colorsString.split(",");
+
+    allPath.forEach((path, index) => {
+      path.setAttribute("fill", colors[index % colors.length]);
+    });
+  }
+
+  hashTo90Hex(username) {
     let hash = 0;
     for (let i = 0; i < username.length; i++) {
       const char = username.charCodeAt(i);
@@ -171,6 +191,12 @@ class RandomColorSvg extends HTMLElement {
     let b = Math.floor(Math.random() * (rgb2[2] - rgb1[2] + 1)) + rgb1[2];
 
     return this.rgbToHex(r, g, b);
+  }
+  getColors() {
+    const svgElement = this.shadowRoot.querySelector("svg");
+    const allPath = svgElement.querySelectorAll("path");
+    const colors = Array.from(allPath).map(path => path.getAttribute("fill"));
+    return colors;
   }
 }
 
