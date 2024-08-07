@@ -42,7 +42,7 @@ Then simply use the web component as:
 <random-color-svg width="92px" height="92px" username=""></random-color-svg>
 ```
 
-> Supports three optional attributes, height and width for sizing the svg, and a username attribute to get a hashed color (needs secure HTTPS context) using SHA-256 algorithm.
+> Supports three optional attributes, height and width for sizing the svg, and a username attribute to get a hashed color (optional).
 
 | Attribute  | Description                                         | Default   |
 | ---------- | --------------------------------------------------- | --------- |
