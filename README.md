@@ -42,7 +42,7 @@ Then simply use the web component as:
 <random-color-svg width="92px" height="92px" username=""></random-color-svg>
 ```
 
-> Supports three optional attributes, height and width for sizing the svg, and a username attribute to get a hashed color (optional). Also, it has getter and setter methods for color.
+> Supports three optional attributes, height and width for sizing the svg, and a username attribute to get a hashed color (optional). Also, it has getter and setter methods for color. Colors attribute is a string of 15 hex color codes.
 
 | Attribute  | Description                                         | Default   |
 | ---------- | --------------------------------------------------- | --------- |
@@ -57,16 +57,16 @@ Then simply use the web component as:
 <random-color-svg colors="#000000,#1c1c1c,#333333,#4d4d4d,#666666,#808080,#999999,#b3b3b3,#cccccc,#e6e6e6,#f2f2f2,#f5f5f5,#fafafa,#dcdcdc,#c0c0c0"></random-color-svg>
 ```
 
-> ⚠️ Note: this will not set the color values if `username` is provided already.
+> ⚠️ Note: this will not set the color values if `username` is provided already. As basic purpose of profile pic/ avatar is to set using `username` attribute, it has preference over colors string.
 
 ## Get the Color values
 
 ```js
  document.addEventListener("DOMContentLoaded", () => {
-      const svg = document.getElementById("pearl-svg");
-      if (svg instanceof RandomColorSvg) {
+    const svg = document.getElementById("pearl-svg");
+    if (svg instanceof RandomColorSvg) {
         svg.getColors(); // Use this as you want!
-      }
+    }
 });
 ```
 
