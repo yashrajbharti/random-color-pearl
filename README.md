@@ -42,7 +42,7 @@ Then simply use the web component as:
 <random-color-svg width="92px" height="92px" username=""></random-color-svg>
 ```
 
-> Supports three optional attributes, height and width for sizing the svg, and a username attribute to get a hashed color (optional). Also, it has getter and setter methods for color. Colors attribute is a string of 15 hex color codes.
+> Supports the following optional attributes, height and width for sizing the svg, and a username attribute to get a hashed color (optional). Also, it has getter and setter methods for color. Colors attribute is a string of 15 hex color codes.
 
 | Attribute  | Description                                         | Default     |
 | ---------- | --------------------------------------------------- | ----------- |
