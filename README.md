@@ -27,11 +27,11 @@ npm i random-color-pearl
 ```
 
 ## Or Import
-  
+
 ```js
-import('random-color-pearl');
+import("random-color-pearl");
 ```
-  
+
 Then simply use the web component as:
 
 ```html
@@ -52,11 +52,14 @@ Then simply use the web component as:
 | `height`   | Sets the height of the SVG element                  | `92px`      |
 | `username` | If provided, hashes the username to generate colors | `undefined` |
 | `colors`   | If provided, fills the svg with the given colors    | `undefined` |
+| `title`    | Adds an accessible title to the svg                 | `avatar`    |
 
 ## Set the Color Values
 
 ```html
-<random-color-svg colors="#000000,#1c1c1c,#333333,#4d4d4d,#666666,#808080,#999999,#b3b3b3,#cccccc,#e6e6e6,#f2f2f2,#f5f5f5,#fafafa,#dcdcdc,#c0c0c0"></random-color-svg>
+<random-color-svg
+  colors="#000000,#1c1c1c,#333333,#4d4d4d,#666666,#808080,#999999,#b3b3b3,#cccccc,#e6e6e6,#f2f2f2,#f5f5f5,#fafafa,#dcdcdc,#c0c0c0"
+></random-color-svg>
 ```
 
 > ⚠️ Note: this will not set the color values if `username` is provided already with a truthy value. As basic purpose of profile pic / avatar is to set unique pearls using `username` attribute, it has preference over the `colors` string.
@@ -64,11 +67,11 @@ Then simply use the web component as:
 ## Get the Color values
 
 ```js
- document.addEventListener("DOMContentLoaded", () => {
-    const svg = document.getElementById("pearl-svg");
-    if (svg instanceof RandomColorSvg) {
-        svg.getColors(); // Use this as you want!
-    }
+document.addEventListener("DOMContentLoaded", () => {
+  const svg = document.getElementById("pearl-svg");
+  if (svg instanceof RandomColorSvg) {
+    svg.getColors(); // Use this as you want!
+  }
 });
 ```
 

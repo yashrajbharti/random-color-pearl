@@ -7,6 +7,7 @@ template.innerHTML = `
         }
       </style>
       <svg width="92" height="92" viewBox="0 0 92 92" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <title>avatar</title>
         <g clip-path="url(#clip0_96_889)">
           <path d="M87.4167 25.9619L82.6153 21.3614L82.1722 20.7763C72.8394 23.5644 58.7163 27.7766 58.3041 27.8589C57.687 27.9824 45.457 24.5994 45.457 24.5994L30.6608 18.4199H29.1879C24.2395 25.346 21.098 33.6856 20.4659 42.7298L22.1457 42.5444H38.6824L62.0064 47.9753L89.8964 42.7812V42.7604L91.7826 41.522C91.248 35.9901 89.735 30.7449 87.4167 25.9619Z" fill="#31A7FB"/>
           <path d="M30.1895 18.4199H14.0627L5.97946 26.3716L3.49726 28.3825C1.68062 32.7604 0.518582 37.4781 0.138184 42.4156L1.78538 44.2336H6.84322L21.7415 42.589C22.2618 33.6191 25.3111 25.3284 30.1895 18.4199Z" fill="#0094FD"/>
@@ -39,12 +40,15 @@ class RandomColorSvg extends HTMLElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true));
   }
   static get observedAttributes() {
-    return ["width", "height", "username", "colors"];
+    return ["width", "height", "username", "colors", "title"];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === "width" || name === "height") {
       this.updateSize();
+    }
+    if (name === "title") {
+      this.updateTitle();
     }
     if (name === "username" && oldValue !== newValue) {
       this.generateColors();
@@ -52,6 +56,12 @@ class RandomColorSvg extends HTMLElement {
     if (name === "colors") {
       this.generateColorsFromArray(newValue);
     }
+  }
+
+  updateTitle() {
+    const svg = this.shadowRoot.querySelector("svg");
+    const title = svg.querySelector("title");
+    title.textContent = this.getAttribute("title");
   }
 
   updateSize() {
@@ -67,13 +77,12 @@ class RandomColorSvg extends HTMLElement {
     const colors = this.getAttribute("colors");
 
     this.updateSize();
+    this.updateTitle();
     if (username) {
       this.generateColors();
-    }
-    else if (colors) {
+    } else if (colors) {
       this.generateColorsFromArray(colors);
-    }
-    else {
+    } else {
       const color1 = `#${((Math.random() * 0xffffff) << 0)
         .toString(16)
         .padStart(6, "0")}`;
@@ -120,7 +129,10 @@ class RandomColorSvg extends HTMLElement {
       hash = (hash << 5) - hash + char;
       hash |= 0;
     }
-    const baseColors = [this.generateBaseColor(hash), this.generateBaseColor(hash + 10)];
+    const baseColors = [
+      this.generateBaseColor(hash),
+      this.generateBaseColor(hash + 10),
+    ];
     let hexString = "";
     const color1 = baseColors[0];
     const color2 = baseColors[1];
@@ -135,7 +147,7 @@ class RandomColorSvg extends HTMLElement {
     const letters = "0123456789ABCDEF";
     let color = "#";
     for (let i = 0; i < 6; i++) {
-      const value = (hashHex >> (i * 4)) & 0xF;
+      const value = (hashHex >> (i * 4)) & 0xf;
       color += letters[value];
     }
     return color;
@@ -195,7 +207,7 @@ class RandomColorSvg extends HTMLElement {
   getColors() {
     const svgElement = this.shadowRoot.querySelector("svg");
     const allPath = svgElement.querySelectorAll("path");
-    const colors = Array.from(allPath).map(path => path.getAttribute("fill"));
+    const colors = Array.from(allPath).map((path) => path.getAttribute("fill"));
     return colors;
   }
 }
